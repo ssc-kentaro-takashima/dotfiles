@@ -1,19 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+default_repo="ssc-kentaro-takashima/dotfiles"
+default_profile="wsl"
+
 if [ "${1:-}" = "-h" ] || [ "${1:-}" = "--help" ]; then
-  echo "Usage: $0 <github_owner/repo> [flake_profile]"
-  echo "Example: $0 your-account/nix-nvim wsl"
+  echo "Usage: $0 [github_owner/repo] [flake_profile]"
+  echo "Default: $0 ${default_repo} ${default_profile}"
+  echo "Example: $0 other-owner/other-repo server"
   exit 0
 fi
 
-if [ $# -lt 1 ] || [ $# -gt 2 ]; then
-  echo "Usage: $0 <github_owner/repo> [flake_profile]" >&2
+if [ $# -gt 2 ]; then
+  echo "Usage: $0 [github_owner/repo] [flake_profile]" >&2
   exit 1
 fi
 
-repo="$1"
-profile="${2:-wsl}"
+repo="${1:-$default_repo}"
+profile="${2:-$default_profile}"
 
 export NIX_CONFIG="experimental-features = nix-command flakes"
 

@@ -13,18 +13,20 @@ in {
 
   programs.home-manager.enable = true;
 
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
+    viAlias = true;
+    vimAlias = true;
+    withRuby = false;
+  };
+
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
 
-  home.shellAliases = {
-    vi = "nvim";
-    vim = "nvim";
-  };
-
   home.packages = with pkgs; [
-    neovim
     ripgrep
     fd
     unzip

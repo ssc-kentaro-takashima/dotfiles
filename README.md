@@ -3,6 +3,22 @@
 Flakes + Home Manager で Neovim 環境を再現するリポジトリです。  
 配布先マシンでは git を使わず、公開 GitHub の Flake を直接参照して適用できます。
 
+公開リポジトリ: https://github.com/ssc-kentaro-takashima/dotfiles
+
+## 最短3行インストール（コピペ用）
+
+```bash
+sh <(curl -L https://nixos.org/nix/install) --daemon --yes
+```
+```bash
+export NIX_CONFIG="experimental-features = nix-command flakes"
+```
+```bash
+nix --extra-experimental-features "nix-command flakes" run github:nix-community/home-manager -- switch -b hm-backup --impure --flake github:ssc-kentaro-takashima/dotfiles#wsl
+```
+
+この3行だけで、gitなしで同じNeovim環境を適用できます。
+
 ## ゴール
 
 - 新規マシンで数行のコマンドだけで同一環境を構築
@@ -39,13 +55,39 @@ sh <(curl -L https://nixos.org/nix/install) --daemon --yes
 
 2) Home Manager で適用
 
+```bash
 export NIX_CONFIG="experimental-features = nix-command flakes"
 nix --extra-experimental-features "nix-command flakes" run github:nix-community/home-manager -- switch -b hm-backup --impure --flake .#wsl
+```
 
-## 公開 GitHub 参照の適用例
+## 別マシン向けコピペ最短手順
 
+```bash
+sh <(curl -L https://nixos.org/nix/install) --daemon --yes
 export NIX_CONFIG="experimental-features = nix-command flakes"
-nix --extra-experimental-features "nix-command flakes" run github:nix-community/home-manager -- switch -b hm-backup --impure --flake github:<your-account>/<your-repo>#wsl
+nix --extra-experimental-features "nix-command flakes" run github:nix-community/home-manager -- switch -b hm-backup --impure --flake github:ssc-kentaro-takashima/dotfiles#wsl
+```
+
+上記の 3 行で、git なしで同じ環境を適用できます。
+
+## 公開 GitHub 参照の補助スクリプト
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ssc-kentaro-takashima/dotfiles/main/scripts/install-from-github.sh | bash
+```
+
+別リポジトリ/プロファイルを指定する場合:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ssc-kentaro-takashima/dotfiles/main/scripts/install-from-github.sh | bash -s -- other-owner/other-repo server
+```
+
+## Flake App での適用
+
+```bash
+export NIX_CONFIG="experimental-features = nix-command flakes"
+nix --extra-experimental-features "nix-command flakes" run github:ssc-kentaro-takashima/dotfiles#install
+```
 
 ## 備考
 
